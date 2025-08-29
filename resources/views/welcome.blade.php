@@ -9,6 +9,8 @@
     <!-- Metronic Global Styles -->
     <link href="{{ asset('assets/metronic-8/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/metronic-8/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+
+    {!! RecaptchaV3::initJs() !!}
 </head>
 <body id="kt_body" class="app-blank bg-body">
 
@@ -59,6 +61,9 @@
                                 <input type="password" name="password" placeholder="Password" autocomplete="off"
                                     class="form-control bg-transparent" required />
                             </div>
+
+                            {{-- Recaptcha V3 --}}
+                            {!! RecaptchaV3::field('login') !!}
 
                             <!-- Submit -->
                             <div class="d-grid mb-10">
