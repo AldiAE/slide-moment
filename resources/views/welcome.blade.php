@@ -19,7 +19,7 @@
 
             <!-- Left Section -->
         <div class="d-flex flex-column flex-lg-row-fluid w-100 w-lg-50 bgi-size-cover bgi-position-center p-10"
-            style="background-image: url('{{ asset("assets/metronic-8/media/auth/bg10-dark.jpeg") }}'); min-height: 250px;">
+            style="background-image: url('{{ asset("assets/metronic-8/media/auth/bg12.jpg") }}'); min-height: 250px;">
             <div class="d-flex flex-center flex-column flex-lg-row-fluid text-center text-lg-start">
                 <div>
                     <img src="{{ asset('assets/logo.png') }}" alt="Logo" class="h-40px mb-3 mx-auto" />
