@@ -47801,17 +47801,17 @@ body[data-kt-sticky-landing-header=on] {
 }
 
 [data-bs-theme=light] {
-  --bs-app-bg-color: #f6f6f6;
-  --bs-app-blank-bg-color: #f6f6f6;
-  --bs-app-header-base-bg-color: #ece8e8;
-  --bs-app-header-base-box-shadow: #ece8e8;
+  --bs-app-bg-color: #fcfcfc;
+  --bs-app-blank-bg-color: #fcfcfc;
+  --bs-app-header-base-bg-color: transaparent;
+  --bs-app-header-base-box-shadow: none;
   --bs-app-header-minimize-bg-color: #ffffff;
   --bs-app-header-minimize-box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
   --bs-app-toolbar-base-bg-color: #ffffff;
   --bs-app-toolbar-base-box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
   --bs-app-toolbar-base-border-top: 1px dashed #DBDFE9;
   --bs-app-aside-base-bg-color: #ffffff;
-  --bs-app-footer-bg-color: #ece8e8;
+  --bs-app-footer-bg-color: transparent;
   --bs-app-footer-box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
 }
 
@@ -49715,7 +49715,7 @@ body,
   }
 }
 [data-kt-app-layout=dark-sidebar] .app-sidebar {
-  background-color: #433a3a;
+  background-color: #131313;
   border-right: 0;
 }
 [data-kt-app-layout=dark-sidebar] .app-sidebar .scroll-y,
