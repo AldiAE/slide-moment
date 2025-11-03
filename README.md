@@ -1,3 +1,6 @@
+$ cd ~/Documents/slide\ moment/slidemoment-cms
+
+
 # Slide Moment CMS Project Setup
 
 This guide explains how to set up and run this Laravel project locally, including testing login, logout, and session expiration.
