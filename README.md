@@ -1,4 +1,4 @@
-$ cd ~/Documents/slide\ moment/slidemoment-cms
+cd ~/Documents/slide\ moment/slidemoment-cms
 
 
 # Slide Moment CMS Project Setup
