@@ -19,7 +19,7 @@ class PageController extends Controller
         $pages = Page::orderBy('created_at', 'desc');
 
         if (!empty($request->search)) {
-            $pages = $pages->where('title', 'like', '%' . $request->search . '%');
+            $pages = $pages->where('title', 'ilike', '%' . $request->search . '%');
         }
 
         $pages = $pages->paginate(10);
