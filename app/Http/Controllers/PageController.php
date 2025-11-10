@@ -24,7 +24,7 @@ class PageController extends Controller
 
         $pages = $pages->paginate(10);
 
-        return view('admin.pages.index', compact('title', 'pages', 'menu_active'));
+        return view('pages.index', compact('title', 'pages', 'menu_active'));
     }
 
     /**
@@ -33,7 +33,7 @@ class PageController extends Controller
     public function create()
     {
         $title = 'Create Page';
-        return view('admin.pages.create', compact('title'));
+        return view('pages.create', compact('title'));
     }
 
     /**
@@ -62,7 +62,7 @@ class PageController extends Controller
     public function edit(Page $page)
     {
         $title = 'Edit Page';
-        return view('admin.pages.edit', compact('title', 'page'));
+        return view('pages.edit', compact('title', 'page'));
     }
 
     /**
