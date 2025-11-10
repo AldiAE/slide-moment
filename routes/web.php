@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PageController;
 
+Route::middleware(['auth:web'])->group(function () {
+    Route::resource('sections', \App\Http\Controllers\SectionController::class);
+});
 
 Route::get('/', function () {
     return auth()->check() ? redirect()->route('home') : redirect()->route('login');

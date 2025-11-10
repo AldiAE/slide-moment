@@ -44,6 +44,12 @@ return [
                 ],
             ],
         ],
+                [
+            'title' => 'Sections',
+            'route' => 'sections.index',
+            'icon' => 'fa fa-layer-group',
+                ],
+
 
     ],
 ];
