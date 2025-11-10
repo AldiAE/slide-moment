@@ -12,29 +12,29 @@ class SectionController extends Controller
      * Display a listing of the sections.
      */
     public function index()
-    {
-        $sections = Section::with('page')->latest()->get();
+{
+    $sections = Section::with('page')->latest()->get();
 
-        return view('sections.index', [
-            'title' => 'Sections',
-            'sub_title' => 'Manage all sections',
-            'sections' => $sections,
-        ]);
-    }
+    return view('sections.index', [
+        'title' => 'Sections',
+        'sub_title' => 'Manage all sections',
+        'sections' => $sections,
+    ]);
+}
 
     /**
      * Show the form for creating a new section.
      */
     public function create()
-    {
-        $pages = Page::all();
+{
+    $pages = Page::all();
 
-        return view('sections.create', [
-            'title' => 'Sections',
-            'sub_title' => 'Create Section',
-            'pages' => $pages,
-        ]);
-    }
+    return view('sections.create', [
+        'title' => 'Create Section',
+        'sub_title' => null,
+        'pages' => $pages,
+    ]);
+}
 
     /**
      * Store a newly created section in storage.
@@ -60,16 +60,16 @@ class SectionController extends Controller
      * Show the form for editing the specified section.
      */
     public function edit(Section $section)
-    {
-        $pages = Page::all();
+{
+    $pages = Page::all();
 
-        return view('sections.edit', [
-            'title' => 'Sections',
-            'sub_title' => 'Edit Section',
-            'section' => $section,
-            'pages' => $pages,
-        ]);
-    }
+    return view('sections.edit', [
+        'title' => 'Edit Section',
+        'sub_title' => $section->title,
+        'section' => $section,
+        'pages' => $pages,
+    ]);
+}
 
     /**
      * Update the specified section in storage.
