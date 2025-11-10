@@ -30,6 +30,20 @@ return [
                 ],
             ],
         ],
-        
+        [
+            'type'              => 'group',
+            'label'             => 'Pages',
+            'required_features' => [],
+            'children'          => [
+                [
+                    'type'      => 'single',
+                    'label'     => 'Page List',
+                    'icon'      => 'fa-solid fa-list',
+                    'url'       => 'pages',
+                    'active'    => '\View::shared("menu_active") == "pages"',
+                ],
+            ],
+        ],
+
     ],
 ];

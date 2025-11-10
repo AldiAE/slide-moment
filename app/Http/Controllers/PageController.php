@@ -12,12 +12,19 @@ class PageController extends Controller
     /**
      * Menampilkan daftar semua halaman.
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Pages';
-        $pages = Page::orderBy('created_at', 'desc')->get();
+        $menu_active = 'pages';
+        $pages = Page::orderBy('created_at', 'desc');
 
-        return view('admin.pages.index', compact('title', 'pages'));
+        if (!empty($request->search)) {
+            $pages = $pages->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $pages = $pages->paginate(10);
+
+        return view('admin.pages.index', compact('title', 'pages', 'menu_active'));
     }
 
     /**
@@ -46,7 +53,7 @@ class PageController extends Controller
 
         Page::create($validated);
 
-        return redirect()->route('pages.index')->with('success', 'Page created successfully.');
+        return redirect()->route('pages.index')->withSuccess(['Page created successfully.']);
     }
 
     /**
@@ -78,7 +85,7 @@ class PageController extends Controller
 
         $page->update($validated);
 
-        return redirect()->route('pages.index')->with('success', 'Page updated successfully.');
+        return redirect()->route('pages.index')->withSuccess(['Page updated successfully.']);
     }
 
     /**
@@ -92,6 +99,6 @@ class PageController extends Controller
 
         $page->delete();
 
-        return redirect()->route('pages.index')->with('success', 'Page deleted successfully.');
+        return redirect()->route('pages.index')->withSuccess(['Page deleted successfully.']);
     }
 }
