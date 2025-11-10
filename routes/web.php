@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\PageController;
+
+Route::resource('pages', PageController::class);
 
 Route::get('/', function () {
     return auth()->check() ? redirect()->route('home') : redirect()->route('login');
