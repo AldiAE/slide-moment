@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,13 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 🔹 Panggil seeder lain (contohnya PageSeeder)
+        $this->call(PageSeeder::class);
 
+        // 🔹 Tambahkan akun admin default
         User::updateOrCreate(
-            ['email' => 'admin-slidemoment@mailinator.com'],
+            ['email' => 'admin@example.com'],
             [
-                'name' => 'Administrator',
-                'password' => Hash::make('777777'), // ganti dengan password aman
+                'name' => 'admin',
+                'password' => Hash::make('12345678'), // ganti dengan password aman
             ]
         );
     }
