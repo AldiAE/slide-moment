@@ -9,11 +9,13 @@ use Illuminate\Support\Str;
 class HeaderController extends Controller
 {
     public function index()
-    {
-        $headers = Header::orderBy('id', 'asc')->get();
-        return view('settings.headers.index', compact('headers'))
-            ->with('title', 'Header Management');
-    }
+{
+    // Ambil 10 header per halaman, bisa disesuaikan
+    $headers = Header::orderBy('id', 'asc')->paginate(10);
+
+    return view('settings.headers.index', compact('headers'))
+        ->with('title', 'Header');
+}
 
     public function create()
     {

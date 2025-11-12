@@ -17,7 +17,7 @@
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title fw-bold text-dark">Footer Management</h3>
+            <h3 class="card-title fw-bold text-dark">Footer</h3>
             <a href="{{ route('footers.create') }}" class="btn btn-primary">+ Add Footer</a>
         </div>
 
@@ -59,6 +59,34 @@
                     @endforelse
                 </tbody>
             </table>
+            {{-- Pagination --}}
+<div class="mt-4 d-flex justify-content-between align-items-center">
+    <div>
+        <small class="text-muted">
+            Showing {{ $footers->firstItem() ?? 0 }} to {{ $footers->lastItem() ?? 0 }} of {{ $footers->total() }} entries
+        </small>
+    </div>
+    <div>
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item {{ $footers->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $footers->previousPageUrl() ?? '#' }}" tabindex="-1">Previous</a>
+                </li>
+
+                @for ($i = 1; $i <= $footers->lastPage(); $i++)
+                    <li class="page-item {{ $i == $footers->currentPage() ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $footers->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+
+                <li class="page-item {{ $footers->currentPage() == $footers->lastPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $footers->nextPageUrl() ?? '#' }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
         </div>
     </div>
 </x-default-layout>

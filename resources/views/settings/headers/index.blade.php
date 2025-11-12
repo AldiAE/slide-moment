@@ -17,7 +17,7 @@
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title fw-bold text-dark">Header Management</h3>
+            <h3 class="card-title fw-bold text-dark">Header</h3>
             <a href="{{ route('headers.create') }}" class="btn btn-primary">+ Add New Header</a>
         </div>
 
@@ -59,6 +59,34 @@
                     @endforelse
                 </tbody>
             </table>
+            {{-- Pagination --}}
+<div class="mt-4 d-flex justify-content-between align-items-center">
+    <div>
+        <small class="text-muted">
+            Showing {{ $headers->firstItem() ?? 0 }} to {{ $headers->lastItem() ?? 0 }} of {{ $headers->total() }} entries
+        </small>
+    </div>
+    <div>
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item {{ $headers->onFirstPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $headers->previousPageUrl() ?? '#' }}" tabindex="-1">Previous</a>
+                </li>
+
+                @for ($i = 1; $i <= $headers->lastPage(); $i++)
+                    <li class="page-item {{ $i == $headers->currentPage() ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $headers->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+
+                <li class="page-item {{ $headers->currentPage() == $headers->lastPage() ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ $headers->nextPageUrl() ?? '#' }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
         </div>
     </div>
 </x-default-layout>

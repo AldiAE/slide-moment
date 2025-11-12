@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 class FooterController extends Controller
 {
     public function index()
-    {
-        $footers = Footer::all();
-        return view('settings.footers.index', compact('footers'))
-            ->with('title', 'Footer Management');
-    }
+{
+    $footers = Footer::orderBy('id', 'asc')->paginate(10);
+
+    return view('settings.footers.index', compact('footers'))
+        ->with('title', 'Footer');
+}
+
 
     public function create()
     {
