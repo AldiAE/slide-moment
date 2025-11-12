@@ -18,6 +18,22 @@
         </div>
 
         <div class="card-body">
+            <form method="GET" action="{{ route('rows.index') }}" class="mb-5 d-flex justify-content-end" role="search">
+    <div class="input-group" style="max-width: 350px;">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            class="form-control"
+            placeholder="Search rows..."
+        >
+        <button class="btn btn-outline btn-outline-primary" type="submit">Search</button>
+        @if(request('search'))
+            <a href="{{ route('rows.index') }}" class="btn btn-outline btn-outline-info ms-2">Reset</a>
+        @endif
+    </div>
+</form>
+
             <div class="table-responsive">
                 <table class="table align-middle table-row-dashed fs-6 gy-5">
                     <thead>

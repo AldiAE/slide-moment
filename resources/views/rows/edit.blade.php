@@ -1,4 +1,4 @@
-<x-default-layout>
+<x-default-layout> 
     @section('title', $title)
 
     @section('breadcrumbs')
@@ -21,7 +21,8 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('rows.update', $row->id) }}" method="POST">
+            {{-- ✅ Tambahkan enctype untuk upload file --}}
+            <form action="{{ route('rows.update', $row->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -54,7 +55,7 @@
 
                 <div class="mb-5">
                     <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="4">{{ old('description', $row->description) }}</textarea>
+                    <textarea name="description" id="summernote" class="form-control" rows="6">{{ old('description', $row->description) }}</textarea>
                 </div>
 
                 <div class="mb-5">
@@ -62,9 +63,17 @@
                     <input type="number" name="order" class="form-control" value="{{ old('order', $row->order) }}">
                 </div>
 
+                {{-- ✅ Ganti bagian image jadi upload file + preview seperti Section --}}
                 <div class="mb-5">
-                    <label class="form-label">Image (URL or path)</label>
-                    <input type="text" name="image" class="form-control" value="{{ old('image', $row->image) }}">
+                    <label class="form-label">Upload Image</label>
+                    <input type="file" name="image" class="form-control" accept="image/*" />
+
+                    @if ($row->image)
+                        <div class="mt-3">
+                            <p class="text-muted mb-1">Current Image:</p>
+                            <img src="{{ asset('storage/' . $row->image) }}" width="120" class="rounded">
+                        </div>
+                    @endif
                 </div>
 
                 <div class="d-flex justify-content-end">
@@ -74,4 +83,27 @@
             </form>
         </div>
     </div>
+
+    @push('scripts')
+    <!-- Summernote CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#summernote').summernote({
+                height: 200,
+                placeholder: 'Enter detailed description...',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['fontsize', 'color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
+        });
+    </script>
+    @endpush
+
 </x-default-layout>

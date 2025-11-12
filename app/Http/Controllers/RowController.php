@@ -12,15 +12,21 @@ class RowController extends Controller
     /**
      * Display a listing of the rows.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rows = Row::with(['page', 'section'])->latest()->get();
+        $title = 'Rows';
+        $sub_title = 'Manage all rows';
 
-        return view('rows.index', [
-            'title' => 'Rows',
-            'sub_title' => 'Manage all rows',
-            'rows' => $rows,
-        ]);
+        // 🔍 Tambahkan fitur pencarian (sama seperti SectionController)
+        $rows = Row::with(['page', 'section'])->orderBy('created_at', 'desc');
+
+        if (!empty($request->search)) {
+            $rows = $rows->where('title', 'ilike', '%' . $request->search . '%');
+        }
+
+        $rows = $rows->paginate(10); // gunakan pagination agar identik dengan sections
+
+        return view('rows.index', compact('title', 'sub_title', 'rows'));
     }
 
     /**

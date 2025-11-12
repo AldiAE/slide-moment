@@ -21,7 +21,8 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('rows.store') }}" method="POST">
+            {{-- ✅ Tambahkan enctype untuk upload --}}
+            <form action="{{ route('rows.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-5">
@@ -51,7 +52,7 @@
 
                 <div class="mb-5">
                     <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="4" placeholder="Enter description"></textarea>
+                    <textarea name="description" id="summernote" class="form-control" rows="6" placeholder="Enter description"></textarea>
                 </div>
 
                 <div class="mb-5">
@@ -59,9 +60,10 @@
                     <input type="number" name="order" class="form-control" placeholder="0">
                 </div>
 
+                {{-- ✅ Ubah bagian image menjadi upload seperti di Section --}}
                 <div class="mb-5">
-                    <label class="form-label">Image (URL or path)</label>
-                    <input type="text" name="image" class="form-control" placeholder="image.jpg or uploads/row.jpg">
+                    <label class="form-label">Upload Image</label>
+                    <input type="file" name="image" class="form-control" accept="image/*" />
                 </div>
 
                 <div class="d-flex justify-content-end">
@@ -71,4 +73,26 @@
             </form>
         </div>
     </div>
+
+    @push('scripts')
+    <!-- Summernote CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#summernote').summernote({
+                height: 200,
+                placeholder: 'Enter detailed description...',
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['fontsize', 'color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
+        });
+    </script>
+    @endpush
 </x-default-layout>

@@ -56,7 +56,7 @@ return [
         [
             'type'      => 'single',
             'label'     => 'Row List',
-            'icon'      => 'fa-solid fa-table-rows',
+            'icon'      => 'fa-solid fa-table-cells',
             'url'       => 'rows',
             'active'    => '\View::shared("menu_active") == "rows"',
         ],
