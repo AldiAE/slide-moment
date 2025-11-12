@@ -16,6 +16,7 @@ class RowController extends Controller
     {
         $title = 'Rows';
         $sub_title = 'Manage all rows';
+        $menu_active = 'rows'; // ✅ tambahkan ini seperti di SectionController
 
         // 🔍 Tambahkan fitur pencarian (sama seperti SectionController)
         $rows = Row::with(['page', 'section'])->orderBy('created_at', 'desc');
@@ -26,7 +27,7 @@ class RowController extends Controller
 
         $rows = $rows->paginate(10); // gunakan pagination agar identik dengan sections
 
-        return view('rows.index', compact('title', 'sub_title', 'rows'));
+        return view('rows.index', compact('title', 'sub_title', 'rows', 'menu_active'));
     }
 
     /**
@@ -56,8 +57,12 @@ class RowController extends Controller
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'order' => 'nullable|integer',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+        $validated['image'] = $request->file('image')->store('rows', 'public');
+    }
 
         Row::create($validated);
 
@@ -93,7 +98,7 @@ class RowController extends Controller
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'order' => 'nullable|integer',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         $row->update($validated);
