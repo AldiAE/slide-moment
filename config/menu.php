@@ -15,7 +15,9 @@ return [
             'required_features' => [1,2], // kalau parent tidak ada ketentuan khusus cukup taruh di child nya aja
             'required_features_rule' => 'or',
         ],
-         */
+        */
+
+        // 🏠 HOME
         [
             'type'              => 'group',
             'label'             => 'Home',
@@ -30,20 +32,37 @@ return [
                 ],
             ],
         ],
+
+        // 📄 PAGES
         [
-            'type'              => 'group',
-            'label'             => 'Pages',
-            'required_features' => [],
-            'children'          => [
-                [
-                    'type'      => 'single',
-                    'label'     => 'Page List',
-                    'icon'      => 'fa-solid fa-list',
-                    'url'       => 'pages',
-                    'active'    => '\View::shared("menu_active") == "pages"',
-                ],
-            ],
+    'type'              => 'group',
+    'label'             => 'Pages',
+    'required_features' => [],
+    'children'          => [
+        [
+            'type'      => 'single',
+            'label'     => 'Page List',
+            'icon'      => 'fa-solid fa-list',
+            'url'       => 'pages',
+            'active'    => '\View::shared("menu_active") == "pages"',
         ],
+        [
+            'type'      => 'single',
+            'label'     => 'Section List',
+            'icon'      => 'fa-solid fa-layer-group',
+            'url'       => 'sections',
+            'active'    => '\View::shared("menu_active") == "sections"',
+        ],
+        [
+            'type'      => 'single',
+            'label'     => 'Row List',
+            'icon'      => 'fa-solid fa-table-cells',
+            'url'       => 'rows',
+            'active'    => '\View::shared("menu_active") == "rows"',
+        ],
+    ],
+],
+
 
     ],
 ];

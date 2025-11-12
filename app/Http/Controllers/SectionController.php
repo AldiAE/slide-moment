@@ -3,66 +3,92 @@
 namespace App\Http\Controllers;
 
 use App\Models\Section;
+use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SectionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Section::with('page')->get());
+        $title = 'Sections';
+        $menu_active = 'sections';
+        $sections = Section::with('page')->orderBy('created_at', 'desc');
+
+        if (!empty($request->search)) {
+            $sections = $sections->where('title', 'ilike', '%' . $request->search . '%');
+        }
+
+        $sections = $sections->paginate(10);
+
+        return view('sections.index', compact('title', 'sections', 'menu_active'));
+    }
+
+    public function create()
+    {
+        $title = 'Create Section';
+        $pages = Page::all();
+        return view('sections.create', compact('title', 'pages'));
     }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'slug' => 'required|string|max:255',
-        'page_id' => 'required|exists:pages,id',
-        'content' => 'nullable|string',
-    ]);
-
-    $section = \App\Models\Section::where('slug', $validated['slug'])->first();
-
-    if ($section) {
-        $section->update($validated);
-        $status = 200;
-    } else {
-        $section = \App\Models\Section::create($validated);
-        $status = 201;
-    }
-
-    return response()->json($section, $status);
-}
-
-
-    public function show($id)
     {
-        $section = Section::with('page')->findOrFail($id);
-        return response()->json($section);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $section = Section::findOrFail($id);
-
         $validated = $request->validate([
-            'page_id' => 'sometimes|exists:pages,id',
-            'title' => 'sometimes|string|max:255',
+            'page_id' => 'required|exists:pages,id',
+            'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|string|max:255',
             'link_title' => 'nullable|string|max:255',
             'link_url' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        $section->update($validated);
-        return response()->json($section);
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('sections', 'public');
+        }
+
+        Section::create($validated);
+
+        return redirect()->route('sections.index')->withSuccess(['Section created successfully.']);
     }
 
-    public function destroy($id)
+    public function edit(Section $section)
     {
-        $section = Section::findOrFail($id);
+        $title = 'Edit Section';
+        $pages = Page::all();
+        return view('sections.edit', compact('title', 'section', 'pages'));
+    }
+
+    public function update(Request $request, Section $section)
+    {
+        $validated = $request->validate([
+            'page_id' => 'required|exists:pages,id',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'link_title' => 'nullable|string|max:255',
+            'link_url' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($section->image) {
+                Storage::disk('public')->delete($section->image);
+            }
+            $validated['image'] = $request->file('image')->store('sections', 'public');
+        }
+
+        $section->update($validated);
+
+        return redirect()->route('sections.index')->withSuccess(['Section updated successfully.']);
+    }
+
+    public function destroy(Section $section)
+    {
+        if ($section->image) {
+            Storage::disk('public')->delete($section->image);
+        }
+
         $section->delete();
 
-        return response()->json(['message' => 'Section deleted successfully']);
+        return redirect()->route('sections.index')->withSuccess(['Section deleted successfully.']);
     }
 }
