@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\RowController;
 
 Route::get('/', function () {
     return auth()->check() ? redirect()->route('home') : redirect()->route('login');
@@ -29,6 +30,7 @@ Route::middleware('auth:web')->group(function () {
     // CMS Routes
     Route::resource('pages', PageController::class);
     Route::resource('sections', SectionController::class);
+    Route::resource('rows', RowController::class);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
