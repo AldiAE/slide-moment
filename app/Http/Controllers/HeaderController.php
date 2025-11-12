@@ -14,7 +14,8 @@ class HeaderController extends Controller
     $headers = Header::orderBy('id', 'asc')->paginate(10);
 
     return view('settings.headers.index', compact('headers'))
-        ->with('title', 'Header');
+        ->with('title', 'Header')
+        ->with('menu_active', 'settings');
 }
 
     public function create()

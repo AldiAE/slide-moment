@@ -12,7 +12,8 @@ class FooterController extends Controller
     $footers = Footer::orderBy('id', 'asc')->paginate(10);
 
     return view('settings.footers.index', compact('footers'))
-        ->with('title', 'Footer');
+        ->with('title', 'Footer')
+        ->with('menu_active', 'settings');
 }
 
 
