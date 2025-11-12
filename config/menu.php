@@ -35,51 +35,34 @@ return [
 
         // 📄 PAGES
         [
-            'type'              => 'group',
-            'label'             => 'Pages',
-            'required_features' => [],
-            'children'          => [
-                [
-                    'type'      => 'single',
-                    'label'     => 'Page List',
-                    'icon'      => 'fa-solid fa-list',
-                    'url'       => 'pages',
-                    'active'    => '\View::shared("menu_active") == "pages"',
-                ],
-            ],
-        ],
-
-        // 🧩 SECTIONS
+    'type'              => 'group',
+    'label'             => 'Pages',
+    'required_features' => [],
+    'children'          => [
         [
-            'type'              => 'group',
-            'label'             => 'Sections',
-            'required_features' => [],
-            'children'          => [
-                [
-                    'type'      => 'single',
-                    'label'     => 'Section List',
-                    'icon'      => 'fa-solid fa-layer-group',
-                    'url'       => 'sections',
-                    'active'    => '\View::shared("menu_active") == "sections"',
-                ],
-            ],
+            'type'      => 'single',
+            'label'     => 'Page List',
+            'icon'      => 'fa-solid fa-list',
+            'url'       => 'pages',
+            'active'    => '\View::shared("menu_active") == "pages"',
         ],
-
-        // 🧱 ROWS
         [
-            'type'              => 'group',
-            'label'             => 'Rows',
-            'required_features' => [],
-            'children'          => [
-                [
-                    'type'      => 'single',
-                    'label'     => 'Row List',
-                    'icon'      => 'fa-solid fa-table',
-                    'url'       => 'rows',
-                    'active'    => '\View::shared("menu_active") == "rows"',
-                ],
-            ],
+            'type'      => 'single',
+            'label'     => 'Section List',
+            'icon'      => 'fa-solid fa-layer-group',
+            'url'       => 'sections',
+            'active'    => '\View::shared("menu_active") == "sections"',
         ],
+        [
+            'type'      => 'single',
+            'label'     => 'Row List',
+            'icon'      => 'fa-solid fa-table-rows',
+            'url'       => 'rows',
+            'active'    => '\View::shared("menu_active") == "rows"',
+        ],
+    ],
+],
+
 
     ],
 ];
