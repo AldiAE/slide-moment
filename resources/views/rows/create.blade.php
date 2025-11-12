@@ -27,7 +27,7 @@
 
                 <div class="mb-5">
                     <label class="form-label">Page</label>
-                    <select name="page_id" class="form-select" required>
+                    <select name="page_id" id="page_id" class="form-select" required>
                         <option value="">-- Select Page --</option>
                         @foreach ($pages as $page)
                             <option value="{{ $page->id }}">{{ $page->title }}</option>
@@ -37,11 +37,9 @@
 
                 <div class="mb-5">
                     <label class="form-label">Section</label>
-                    <select name="section_id" class="form-select" required>
+                    <select name="section_id" id="section_id" class="form-select" required>
                         <option value="">-- Select Section --</option>
-                        @foreach ($sections as $section)
-                            <option value="{{ $section->id }}">{{ $section->title }}</option>
-                        @endforeach
+
                     </select>
                 </div>
 
@@ -92,6 +90,25 @@
                     ['view', ['fullscreen', 'codeview']]
                 ]
             });
+        });
+        const pages = @json($pages); // kirim semua page+section ke JS
+        const pageSelect = document.getElementById('page_id');
+        const sectionSelect = document.getElementById('section_id');
+
+        pageSelect.addEventListener('change', function () {
+            const selectedPageId = parseInt(this.value);
+            const page = pages.find(p => p.id === selectedPageId);
+
+            sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+
+            if (page && page.sections.length > 0) {
+                page.sections.forEach(section => {
+                    const option = document.createElement('option');
+                    option.value = section.id;
+                    option.textContent = section.title;
+                    sectionSelect.appendChild(option);
+                });
+            }
         });
     </script>
     @endpush

@@ -35,14 +35,12 @@ class RowController extends Controller
      */
     public function create()
     {
-        $pages = Page::all();
-        $sections = Section::all();
+        $pages = Page::with('sections')->get();
 
         return view('rows.create', [
             'title' => 'Rows',
             'sub_title' => 'Create Row',
             'pages' => $pages,
-            'sections' => $sections,
         ]);
     }
 
@@ -75,15 +73,13 @@ class RowController extends Controller
      */
     public function edit(Row $row)
     {
-        $pages = Page::all();
-        $sections = Section::all();
+        $pages = Page::with('sections')->get();
 
         return view('rows.edit', [
             'title' => 'Rows',
             'sub_title' => 'Edit Row',
             'row' => $row,
             'pages' => $pages,
-            'sections' => $sections,
         ]);
     }
 

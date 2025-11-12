@@ -1,4 +1,4 @@
-<x-default-layout> 
+<x-default-layout>
     @section('title', $title)
 
     @section('breadcrumbs')
@@ -28,7 +28,8 @@
 
                 <div class="mb-5">
                     <label class="form-label">Page</label>
-                    <select name="page_id" class="form-select" required>
+                    <select name="page_id" id="page_id" class="form-select" required>
+                        <option value="">-- Select Page --</option>
                         @foreach ($pages as $page)
                             <option value="{{ $page->id }}" {{ $page->id == $row->page_id ? 'selected' : '' }}>
                                 {{ $page->title }}
@@ -39,12 +40,8 @@
 
                 <div class="mb-5">
                     <label class="form-label">Section</label>
-                    <select name="section_id" class="form-select" required>
-                        @foreach ($sections as $section)
-                            <option value="{{ $section->id }}" {{ $section->id == $row->section_id ? 'selected' : '' }}>
-                                {{ $section->title }}
-                            </option>
-                        @endforeach
+                    <select name="section_id" id="section_id" class="form-select" required>
+
                     </select>
                 </div>
 
@@ -102,6 +99,37 @@
                     ['view', ['fullscreen', 'codeview']]
                 ]
             });
+        });
+
+        const pages = @json($pages);
+        const pageSelect = document.getElementById('page_id');
+        const sectionSelect = document.getElementById('section_id');
+        const selectedPageId = parseInt("{{ $row->page_id }}");
+        const selectedSectionId = parseInt("{{ $row->section_id }}");
+
+        function populateSections(pageId, selectedSection = null) {
+            const page = pages.find(p => p.id === pageId);
+            sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+
+            if (page && page.sections.length > 0) {
+                page.sections.forEach(section => {
+                    const option = document.createElement('option');
+                    option.value = section.id;
+                    option.textContent = section.title;
+                    if (selectedSection && section.id === selectedSection) {
+                        option.selected = true;
+                    }
+                    sectionSelect.appendChild(option);
+                });
+            }
+        }
+
+        if (selectedPageId) {
+            populateSections(selectedPageId, selectedSectionId);
+        }
+
+        pageSelect.addEventListener('change', function () {
+            populateSections(parseInt(this.value));
         });
     </script>
     @endpush
