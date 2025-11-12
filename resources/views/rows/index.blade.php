@@ -77,6 +77,37 @@
                     </tbody>
                 </table>
             </div>
+
+            {{-- Pagination --}}
+            <div class="mt-4 d-flex justify-content-between align-items-center">
+                <div>
+                    <small class="text-muted">
+                        Showing {{ $rows->firstItem() ?? 0 }} to {{ $rows->lastItem() ?? 0 }} of {{ $rows->total() }} entries
+                    </small>
+                </div>
+                <div>
+                    <nav>
+                        <ul class="pagination mb-0">
+                            {{-- Previous --}}
+                            <li class="page-item {{ $rows->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $rows->onFirstPage() ? '#' : $rows->previousPageUrl() }}" tabindex="-1">Previous</a>
+                            </li>
+
+                            {{-- Page numbers --}}
+                            @for ($i = 1; $i <= $rows->lastPage(); $i++)
+                                <li class="page-item {{ $i == $rows->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $rows->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+
+                            {{-- Next --}}
+                            <li class="page-item {{ $rows->currentPage() == $rows->lastPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $rows->currentPage() == $rows->lastPage() ? '#' : $rows->nextPageUrl() }}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 </x-default-layout>
