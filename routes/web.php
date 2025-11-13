@@ -34,8 +34,8 @@ Route::middleware('auth:web')->group(function () {
     Route::resource('pages', PageController::class);
     Route::resource('sections', SectionController::class);
     Route::resource('rows', RowController::class);
-    Route::resource('headers', App\Http\Controllers\HeaderController::class);
-    Route::resource('footers', App\Http\Controllers\FooterController::class);
+    Route::resource('headers', HeaderController::class);
+    Route::resource('footers', FooterController::class);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });

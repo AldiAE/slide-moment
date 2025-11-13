@@ -32,21 +32,30 @@ class FooterController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $menu_active = 'footers';
-        $request->validate([
-            'description' => 'nullable|string',
-            'socials' => 'nullable|array',
-        ]);
+{
+    $menu_active = 'footers';
+    $request->validate([
+        'description' => 'nullable|string',
+        'socials' => 'nullable|array',
+    ]);
 
-        Footer::create([
-            'description' => $request->description,
-            'socials' => $request->socials,
-        ]);
-
-        return redirect()->route('footers.index')
-            ->withSuccess(['Footer created successfully.']);
+    $socials = [];
+    if ($request->has('socials')) {
+        foreach ($request->socials as $item) {
+            if (!empty($item['key']) && !empty($item['value'])) {
+                $socials[$item['key']] = $item['value'];
+            }
+        }
     }
+
+    Footer::create([
+        'description' => $request->description,
+        'socials' => $socials,
+    ]);
+
+    return redirect()->route('footers.index')
+        ->withSuccess(['Footer created successfully.']);
+}
 
     public function edit(Footer $footer)
     {
@@ -56,21 +65,30 @@ class FooterController extends Controller
     }
 
     public function update(Request $request, Footer $footer)
-    {
-        $menu_active = 'footers';
-        $request->validate([
-            'description' => 'nullable|string',
-            'socials' => 'nullable|array',
-        ]);
+{
+    $menu_active = 'footers';
+    $request->validate([
+        'description' => 'nullable|string',
+        'socials' => 'nullable|array',
+    ]);
 
-        $footer->update([
-            'description' => $request->description,
-            'socials' => $request->socials,
-        ]);
-
-        return redirect()->route('footers.index')
-            ->withSuccess(['Footer updated successfully.']);
+    $socials = [];
+    if ($request->has('socials')) {
+        foreach ($request->socials as $item) {
+            if (!empty($item['key']) && !empty($item['value'])) {
+                $socials[$item['key']] = $item['value'];
+            }
+        }
     }
+
+    $footer->update([
+        'description' => $request->description,
+        'socials' => $socials,
+    ]);
+
+    return redirect()->route('footers.index')
+        ->withSuccess(['Footer updated successfully.']);
+}
 
     public function destroy(Footer $footer)
     {
