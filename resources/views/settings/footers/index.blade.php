@@ -53,12 +53,15 @@
                         <tr>
                             <td>{{ Str::limit($footer->description, 80) }}</td>
                             <td>
-                                @if($footer->socials)
-                                    <pre class="mb-0">{{ json_encode($footer->socials, JSON_PRETTY_PRINT) }}</pre>
-                                @else
-                                    <span class="text-muted">No socials</span>
-                                @endif
-                            </td>
+    @if($footer->socials)
+        @foreach($footer->socials as $key => $value)
+            <a href="{{ $value }}" target="_blank">{{ $key }}</a>@if(!$loop->last), @endif
+        @endforeach
+    @else
+        <span class="text-muted">No socials</span>
+    @endif
+</td>
+
                             <<td class="text-end">
     <a href="{{ route('footers.edit', $footer->id) }}" class="btn btn-sm btn-warning me-1">Edit</a>
     <form action="{{ route('footers.destroy', $footer->id) }}" method="POST" class="d-inline">
