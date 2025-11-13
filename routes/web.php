@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\RowController;
+use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\FooterController;
+
 
 Route::get('/', function () {
     return auth()->check() ? redirect()->route('home') : redirect()->route('login');
@@ -31,6 +34,8 @@ Route::middleware('auth:web')->group(function () {
     Route::resource('pages', PageController::class);
     Route::resource('sections', SectionController::class);
     Route::resource('rows', RowController::class);
+    Route::resource('headers', HeaderController::class);
+    Route::resource('footers', FooterController::class);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
