@@ -36,6 +36,9 @@ Route::middleware('auth:web')->group(function () {
     Route::resource('rows', RowController::class);
     Route::resource('headers', HeaderController::class);
     Route::resource('footers', FooterController::class);
-
+    Route::resource('categories', App\Http\Controllers\CategoryController::class);
+    Route::resource('events', App\Http\Controllers\EventController::class);
+    Route::get('events/{event}/gallery', [App\Http\Controllers\EventController::class, 'gallery'])->name('events.gallery');
+    Route::post('events/{event}/sync-gallery', [App\Http\Controllers\EventController::class, 'syncGallery'])->name('events.sync-gallery');
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
