@@ -69,6 +69,7 @@ return [
         [
             'type'              => 'group',
             'label'             => 'Settings',
+            'key'               => 'settings',
             'required_features' => [],
             'children'          => [
                 [

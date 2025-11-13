@@ -8,25 +8,38 @@ use Illuminate\Support\Str;
 
 class HeaderController extends Controller
 {
-    public function index()
-{
-    // Ambil 10 header per halaman, bisa disesuaikan
-    $headers = Header::orderBy('id', 'asc')->paginate(10);
+    public function index(Request $request)
+    {
+        $menu_active = 'headers';
+        $query = Header::query();
 
-    return view('settings.headers.index', compact('headers'))
-        ->with('title', 'Header')
-        ->with('menu_active', 'settings');
-}
+        // Jika ada keyword pencarian
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('slug', 'like', '%' . $request->search . '%');
+        }
+
+        // Pagination (10 per halaman)
+        $headers = $query->orderBy('id', 'asc')->paginate(10);
+
+        // Agar pagination tetap membawa keyword search
+        $headers->appends(['search' => $request->search]);
+
+        return view('settings.headers.index', compact('headers', 'menu_active'))
+            ->with('title', 'Header');
+    }
 
     public function create()
     {
+        $menu_active = 'headers';
         $parents = Header::whereNull('parent_id')->get();
-        return view('settings.headers.create', compact('parents'))
+        return view('settings.headers.create', compact('parents', 'menu_active'))
             ->with('title', 'Add Header');
     }
 
     public function store(Request $request)
     {
+        $menu_active = 'headers';
         $request->validate([
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:headers,id',
@@ -44,13 +57,15 @@ class HeaderController extends Controller
 
     public function edit(Header $header)
     {
+        $menu_active = 'headers';
         $parents = Header::whereNull('parent_id')->where('id', '!=', $header->id)->get();
-        return view('settings.headers.edit', compact('header', 'parents'))
+        return view('settings.headers.edit', compact('header', 'parents', 'menu_active'))
             ->with('title', 'Edit Header');
     }
 
     public function update(Request $request, Header $header)
     {
+        $menu_active = 'headers';
         $request->validate([
             'title' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:headers,id',
@@ -68,6 +83,7 @@ class HeaderController extends Controller
 
     public function destroy(Header $header)
     {
+        $menu_active = 'headers';
         $header->delete();
         return redirect()->route('headers.index')
             ->withSuccess(['Header deleted successfully.']);
