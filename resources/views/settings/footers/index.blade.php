@@ -62,7 +62,7 @@
     @endif
 </td>
 
-                            <<td class="text-end">
+                            <td class="text-end">
     <a href="{{ route('footers.edit', $footer->id) }}" class="btn btn-sm btn-warning me-1">Edit</a>
     <form action="{{ route('footers.destroy', $footer->id) }}" method="POST" class="d-inline">
         @csrf
