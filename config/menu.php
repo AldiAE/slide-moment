@@ -65,6 +65,28 @@ return [
             ],
         ],
 
+        [
+            'type'              => 'group',
+            'label'             => 'Master Data',
+            'required_features' => [],
+            'children'          => [
+                [
+                    'type'      => 'single',
+                    'label'     => 'Category',
+                    'icon'      => 'fa-solid fa-database',
+                    'url'       => 'categories',
+                    'active'    => '\View::shared("menu_active") == "categories"',
+                ],
+                [
+                    'type'      => 'single',
+                    'label'     => 'Events',
+                    'icon'      => 'fa-solid fa-upload',
+                    'url'       => 'events',
+                    'active'    => '\View::shared("menu_active") == "events"',
+                ],
+            ],
+        ],
+
         // ⚙️ SETTINGS
         [
             'type'              => 'group',
