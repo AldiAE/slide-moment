@@ -55,8 +55,9 @@ class EventController extends Controller
         ]);
 
         $dir = 'events/' . $request->slug . '/';
-        if(!Storage::disk('public')->exists($request->slug)) {
-            Storage::disk('public')->makeDirectory($request->slug);
+
+        if (!Storage::disk('public')->exists($dir)) {
+            Storage::disk('public')->makeDirectory($dir);
         }
 
         if ($request->hasFile('thumbnail')) {
