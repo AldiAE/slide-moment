@@ -30,3 +30,6 @@ RUN chmod -R 777 storage bootstrap/cache
 
 # [9/9] Start Command Octane
 CMD ["php", "artisan", "octane:start", "--server=roadrunner", "--host=0.0.0.0", "--port=8000"]
+
+# Pastikan juga ada baris ini:
+EXPOSE 8000
