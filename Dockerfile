@@ -1,49 +1,37 @@
-# Menggunakan base image PHP FPM Alpine yang stabil dan ringan
+# Menggunakan base image PHP FPM Alpine yang stabil
 FROM php:8.2-fpm-alpine
 
-# [1/11] Instal Composer secara global
-# Menyalin Composer dari image resminya agar tersedia di /usr/local/bin
+# [1/9] Instal Composer secara global
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# [2/11] Instal SEMUA dependensi sistem yang dibutuhkan:
-# - git, openssh-client: Untuk Octane/Composer/Git.
-# - linux-headers, build-base, make: Untuk kompilasi ekstensi.
-# - postgresql-dev: Wajib untuk kompilasi ekstensi pdo_pgsql.
+# [2/9] Instal SEMUA dependensi sistem yang dibutuhkan:
+# Memastikan semua library C ada untuk kompilasi ekstensi
 RUN apk update && \
     apk add --no-cache git openssh-client linux-headers autoconf build-base make postgresql-dev
 
-# [3/11] Instal EKSTENSI PHP Wajib
-# - sockets: Wajib untuk RoadRunner/Octane.
-# - pdo_pgsql: Wajib untuk koneksi database PostgreSQL.
+# [3/9] Instal EKSTENSI PHP Wajib
+# sockets (Octane) dan pdo_pgsql (PostgreSQL)
 RUN docker-php-ext-install sockets pdo_pgsql
 
-# [4/11] Atur direktori kerja (root proyek Anda di container)
+# [4/9] Atur direktori kerja
 WORKDIR /app
 
-# [5/11] Salin source code Anda ke dalam container
+# [5/9] Salin source code Anda
 COPY . /app
 
-# [6/11] Instal dependensi Composer (Menggunakan lock file terbaru)
+# [6/9] Instal dependensi Composer
 RUN composer install --optimize-autoloader --no-scripts --no-interaction --no-dev
 
-# [7/11] Set Izin Tulis
-# Memberikan izin mutlak ke folder storage dan cache
+# [7/9] Set Izin Tulis
 RUN chmod -R 777 storage bootstrap/cache
 
-# [8/11] Hapus Cache Aplikasi (PENTING untuk mengatasi error SQLite/SIGINT)
-# Menambahkan CACHE_DRIVER=file secara sementara agar perintah ini tidak mencoba koneksi database
+# [8/9] Hapus Cache Aplikasi (FIX: Hanya membersihkan cache berbasis file)
+# HINDARI: optimize:clear, cache:clear, dan migrate (yang memicu koneksi database yang gagal)
 RUN php artisan view:clear && \
     php artisan route:clear && \
     php artisan config:clear
 
-# [9/11] Jalankan Migrasi Database (Opsional, tergantung kebutuhan Anda)
-# Anda bisa menghapus baris ini jika Anda lebih suka menjalankan migrasi melalui 'railway run'
-RUN php artisan migrate --force
-
-# [10/11] Expose Port
-# Port yang akan didengarkan oleh RoadRunner
-EXPOSE 8000
-
-# [11/11] Start Command Octane
-# Menjalankan RoadRunner di port yang diekspos
-CMD ["php", "artisan", "octane:start", "--server=roadrunner", "--host=0.0.0.0", "--port=8000"]
+# [9/9] Start Command Laravel Serve Sederhana
+# Gunakan 'php artisan serve' jika Anda ingin menghindari masalah RoadRunner/Octane
+# Jika Anda yakin dengan Octane, gunakan: CMD ["php", "artisan", "octane:start", "--server=roadrunner", "--host=0.0.0.0", "--port=8000"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
