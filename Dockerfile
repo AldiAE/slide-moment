@@ -9,7 +9,7 @@ RUN apk update && \
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # [3/7] Instal ekstensi Sockets PHP
-RUN docker-php-ext-install sockets
+RUN docker-php-ext-install sockets pdo_pgsql
 
 # [4/7] Hapus paket build tools yang tidak diperlukan
 RUN apk del linux-headers autoconf build-base make
