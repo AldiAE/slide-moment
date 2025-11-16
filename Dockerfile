@@ -34,5 +34,5 @@ RUN php artisan view:clear && \
 # [9/9] Start Command Laravel Serve Sederhana
 # Gunakan 'php artisan serve' jika Anda ingin menghindari masalah RoadRunner/Octane
 # Jika Anda yakin dengan Octane, gunakan: CMD ["php", "artisan", "octane:start", "--server=roadrunner", "--host=0.0.0.0", "--port=8000"]
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+EXPOSE 8080
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
