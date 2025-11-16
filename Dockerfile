@@ -1,27 +1,26 @@
 FROM php:8.2-fpm-alpine
 
-# Menginstal dependensi sistem umum (Git, dll.)
+# [1/7] Instal dependensi sistem dan alat untuk kompilasi
 RUN apk update && \
-    apk add git openssh-client
+    apk add --no-cache git openssh-client linux-headers autoconf build-base make
 
-# PERBAIKAN PENTING: Instal linux-headers untuk kompilasi sockets
-# Tambahkan 'linux-headers' dan 'make' untuk memastikan semua alat kompilasi ada
-RUN apk add --no-cache linux-headers autoconf build-base make && \
-    docker-php-ext-install sockets && \
-    # Hapus paket build tools yang tidak diperlukan setelah kompilasi selesai
-    apk del linux-headers autoconf build-base make
+# [2/7] Instal Composer (Baru Ditambahkan!)
+# Ini adalah cara standar menginstal Composer di Docker
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Atur direktori kerja
+# [3/7] Instal ekstensi Sockets PHP
+RUN docker-php-ext-install sockets
+
+# [4/7] Hapus paket build tools yang tidak diperlukan
+RUN apk del linux-headers autoconf build-base make
+
+# [5/7] Atur direktori kerja
 WORKDIR /app
 
-# Salin source code Anda ke dalam container
+# [6/7] Salin source code Anda ke dalam container
 COPY . /app
 
-# Instal dependensi Composer
+# [7/7] Instal dependensi Composer (Sekarang 'composer' sudah dikenali)
 RUN composer install --optimize-autoloader --no-scripts --no-interaction
 
-# Set Izin Tulis
-RUN chmod -R 777 storage bootstrap/cache
-
-# Set Start Command untuk Octane
-CMD ["php", "artisan", "octane:start", "--server=roadrunner", "--host=0.0.0.0", "--port=8000"]
+# ... (Lanjutkan dengan chmod, CMD, dll.)
