@@ -32,8 +32,7 @@ RUN chmod -R 777 storage bootstrap/cache
 
 # [8/11] Hapus Cache Aplikasi (PENTING untuk mengatasi error SQLite/SIGINT)
 # Menambahkan CACHE_DRIVER=file secara sementara agar perintah ini tidak mencoba koneksi database
-RUN DB_CONNECTION=pgsql CACHE_DRIVER=file php artisan optimize:clear && \
-    php artisan view:clear && \
+RUN php artisan view:clear && \
     php artisan route:clear && \
     php artisan config:clear
 
